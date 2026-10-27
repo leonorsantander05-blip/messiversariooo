@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumplemés Mi Vida! ❤️</title>
+    <!-- Fuente Pixel Art de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: #1a102f;
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(180deg, #0d081d 0%, #201335 50%, #361942 100%);
+        }
+
+        /* Contenedor tipo pantalla de Consola / Monitor Retro */
+        #game-container {
+            width: 100%;
+            max-width: 800px;
+            height: 600px;
+            background: #231935;
+            border: 6px solid #e0829d;
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(224, 130, 157, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Fondo con Estrellas Animadas */
+        .stars-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #dddaf8, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 230px 190px, #fff, rgba(0,0,0,0)),
+                radial-gradient(3px 3px at 300px 60px, #ffb3c6, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 370px 150px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 450px 80px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 520px 220px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 600px 110px, #ffb3c6, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 670px 180px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 730px 40px, #eee, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 800px 300px;
+            opacity: 0.6;
+            animation: starsMove 20s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes starsMove {
+            from { background-position: 0 0; }
+            to { background-position: 800px 600px; }
+        }
+
+        /* Vistas / Pantallas */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            z-index: 2;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            text-align: center;
+        }
+
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Botón EXIT / Salir al Hub */
+        .exit-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ff5e7e;
+            color: white;
+            border: 3px solid #fff;
+            padding: 8px 14px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            cursor: pointer;
+            border-radius: 6px;
+            box-shadow: 0 4px 0 #b33951;
+            z-index: 10;
+            transition: transform 0.1s;
+        }
+
+        .exit-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #b33951;
+        }
+
+        /* Botones pixel genericos */
+        .pixel-btn {
+            background: #6c5ce7;
+            color: #fff;
+            border: 4px solid #fff;
+            padding: 14px 24px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 6px 0 #4834d4;
+            margin: 10px;
+            transition: all 0.1s;
+            display: inline-block;
+        }
+
+        .pixel-btn:hover {
+            background: #7d5fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #4834d4;
+        }
+
+        .pixel-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #4834d4;
+        }
+
+        .pixel-btn.secondary {
+            background: #a55eea;
+            box-shadow: 0 6px 0 #8854d0;
+        }
+        .pixel-btn.secondary:hover { background: #b8e994; color: #222; }
+
+        /* PANTALLA 1: INICIO */
+        #screen-welcome h1 {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #ff9ff3;
+            text-shadow: 3px 3px #5f27cd;
+            margin-bottom: 30px;
+        }
+
+        #screen-welcome .subtext {
+            font-size: 11px;
+            color: #c8d6e5;
+            margin-bottom: 40px;
+        }
+
+        /* PANTALLA RECHAZO (Gatito Triste) */
+        .sad-cat-box {
+            background: rgba(0, 0, 0, 0.6);
+            border: 4px solid #ff6b6b;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 400px;
+        }
+
+        .pixel-cat {
+            font-size: 60px;
+            margin: 15px 0;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* PANTALLA HUB (MENÚ DE REGALOS) */
+        .hub-title {
+            font-size: 16px;
+            color: #feca57;
+            text-shadow: 2px 2px #ff9f43;
+            margin-bottom: 30px;
+        }
+
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 550px;
+        }
+
+        .gift-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 3px solid #ff9ff3;
+            border-radius: 12px;
+            padding: 20px 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .gift-card:hover {
+            background: rgba(255, 159, 243, 0.2);
+            transform: scale(1.05);
+            border-color: #feca57;
+            box-shadow: 0 0 15px rgba(254, 202, 87, 0.4);
+        }
+
+        .gift-card i {
+            font-size: 36px;
+            color: #ff6b6b;
+        }
+
+        .gift-card span {
+            font-size: 10px;
+            color: #fff;
+        }
+
+        /* REGALO 1: CARTA */
+        .letter-container {
+            background: #f7d794;
+            color: #2d3436;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 25px;
+            border-radius: 8px;
+            border: 4px solid #f5cd79;
+            box-shadow: 0 10px 0 #e1b12c;
+            max-width: 580px;
+            max-height: 420px;
+            overflow-y: auto;
+            text-align: left;
+            position: relative;
+        }
+
+        .letter-container h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            color: #d63031;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .envelope-icon {
+            font-size: 70px;
+            color: #ff6b6b;
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* REGALO 2: CANCIONES */
+        .songs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 550px;
+            max-height: 380px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .song-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #54a0ff;
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: left;
+        }
+
+        .song-card i {
+            font-size: 24px;
+            color: #1dd1a1;
+        }
+
+        .song-info {
+            flex-grow: 1;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .song-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: #48dbfb;
+        }
+
+        .song-desc {
+            font-size: 12px;
+            color: #c8d6e5;
+            margin-top: 3px;
+        }
+
+        /* REGALO 3: BÚSQUEDA DEL CORAZÓN (COFRES) */
+        .chests-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            max-width: 500px;
+        }
+
+        .chest-item {
+            width: 80px;
+            height: 80px;
+            background: #576574;
+            border: 3px solid #c8d6e5;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chest-item:hover {
+            transform: translateY(-5px);
+            background: #8395a7;
+            border-color: #feca57;
+        }
+
+        .chest-item.opened-wrong {
+            background: #ff6b6b;
+            border-color: #ee5253;
+            cursor: default;
+            opacity: 0.5;
+        }
+
+        .chest-item.opened-correct {
+            background: #1dd1a1;
+            border-color: #10ac84;
+            animation: winGlow 1s infinite alternate;
+        }
+
+        @keyframes winGlow {
+            from { box-shadow: 0 0 5px #1dd1a1; }
+            to { box-shadow: 0 0 20px #1dd1a1; }
+        }
+
+        /* REGALO 4: VALES DE AMOR */
+        .rules-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px dashed #ff9ff3;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 9px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            max-width: 500px;
+            color: #fabca1;
+        }
+
+        .tickets-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            max-width: 550px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .ticket-item {
+            background: #ffb8b8;
+            color: #2d3436;
+            border: 3px dashed #d63031;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .ticket-item button {
+            margin-top: 5px;
+            background: #ee5253;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .ticket-item.used {
+            background: #8395a7;
+            border-color: #576574;
+            color: #c8d6e5;
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .ticket-item.used button {
+            background: #576574;
+            cursor: not-allowed;
+        }
+
+        /* Scrollbars personalizadas */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff9ff3;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div class="stars-bg"></div>
+
+        <!-- PANTALLA 1: BIENVENIDA -->
+        <div id="screen-welcome" class="screen active">
+            <h1>¡FELIZ MESESARIO<br>MI VIDA! 💓💓💓</h1>
+            <p class="subtext">¿Quieres ver tu regalo de 2 meses?</p>
+            <div>
+                <button class="pixel-btn" onclick="goToScreen('screen-hub'); playSound('start')">EMPEZAR</button>
+                <button class="pixel-btn secondary" onclick="goToScreen('screen-sad'); playSound('deny')">DENEGAR</button>
+            </div>
+        </div>
+
+        <!-- PANTALLA 1.5: DENEGAR (GATITO TRISTE) -->
+        <div id="screen-sad" class="screen">
+            <div class="sad-cat-box">
+                <div class="pixel-cat">😿😭😭</div>
+                <h2 style="font-size: 14px; color: #ff6b6b; margin-bottom: 15px;">VA PORFI, INTÉNTALO...</h2>
+                <p style="font-family: 'Quicksand', sans-serif; font-size: 14px; margin-bottom: 20px;">
+                    ¡Dale al botón de empezar que lo hice con mucho amor para ti! 🥺
+                </p>
+                <button class="pixel-btn" onclick="goToScreen('screen-welcome'); playSound('click')">ESTÁ BIEN...</button>
+            </div>
+        </div>
+
+        <!-- PANTALLA 2: HUB PRINCIPAL -->
+        <div id="screen-hub" class="screen">
+            <h2 class="hub-title">ELIGE UN REGALIITOO ✨</h2>
+            <div class="gifts-grid">
+                <div class="gift-card" onclick="goToScreen('screen-letter-intro'); playSound('click')">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>REGALO 1</span>
+                </div>
+                <div class="gift-card" onclick="goToScreen('screen-songs'); playSound('click')">
+                    <i class="fa-solid fa-compact-disc"></i>
+                    <span>REGALO 2</span>
+                </div>
+                <div class="gift-card" onclick="goToScreen('screen-game'); playSound('click')">
+                    <i class="fa-solid fa-gem"></i>
+                    <span>REGALO 3</span>
+                </div>
+                <div class="gift-card" onclick="goToScreen('screen-tickets-intro'); playSound('click')">
+                    <i class="fa-solid fa-ticket"></i>
+                    <span>REGALO 4</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- REGALO 1: CARTIITA DE AMOOR-->
+        <div id="screen-letter-intro" class="screen">
+            <button class="exit-btn" onclick="goToScreen('screen-hub'); playSound('click')">EXIT</button>
+            <h2 style="font-size: 13px; color: #feca57; margin-bottom: 30px;">PULSA LA CARTA 💌</h2>
+            <div class="envelope-icon" onclick="goToScreen('screen-letter-content'); playSound('open')">
+                ✉️
+            </div>
+        </div>
+
+        <!-- REGALO 1: CARTA CONTENIDO -->
+        <div id="screen-letter-content" class="screen">
+            <button class="exit-btn" onclick="goToScreen('screen-hub'); playSound('click')">EXIT</button>
+            <div class="letter-container">
+                <h2>❤️ Feliz 2 Meses Juntos ❤️</h2>
+                <p>
+                    ¡Hola mi Vidaa! 💕<br><br>
+                   mi bebe mi tikitito hermoso, hoy cumplimos dos meses mi niño hermoso, no sabes lo feliz que me hace poder decir que soy tu novia, compartir estos dos meses con tuuu, 
+capaz para algunas personas dos meses no sean tanto tiempo, pero para mi significa muchisimo, por que se trata de dos meses compartiendo mi vida con la persona que amo, con esa persona que 
+quiero seguir compartiendo todos los dias y con la que sueño tener un futuro hermoso.
+A veces me pongo a pensar en todo lo que siento por tu y siento que las palabras no me alcanzan para explicartelo, por que la verdad, mi vida, no sabes lo importante que sos para mi, llegaste
+a mi vida y te convertiste en alguien que ocupa un lugar enorme en mi corazon,alguien con quien quiero compartir mis dias, mis alegrias, mis tristezas, mis logros, mis sueños y hasta esas cosas 
+pequeñas que capaz parecen insignificantes, pero que para mi serian especiales si las comparto con tuu.✨💖
+                </p>
+            </div>
+        </div>
+
+        <!-- REGALO 2: CANCIONES -->
+        <div id="screen-songs" class="screen">
+            <button class="exit-btn" onclick="goToScreen('screen-hub'); playSound('click')">EXIT</button>
+            <h2 style="font-size: 12px; color: #48dbfb; margin-bottom: 20px;">CANCIONES QUE ME RECUERDAN A TI 🎶</h2>
+            <div class="songs-list">
+                <div class="song-card">
+                    <i class="fa-solid fa-music"></i>
+                    <div class="song-info">
+                        <div class="song-title">Jorge Cuellar - Mi gran amor </div>
+                        <div class="song-desc">Estaba perdida, me salvaste, te amo por sobre todo y quiero construir un futuro formal y toda mi vida a tu lado.</div>
+                    </div>
+                </div>
+                <div class="song-card">
+                    <i class="fa-solid fa-heart"></i>
+                    <div class="song-info">
+                        <div class="song-title">Humbe - Te Lo Prometo</div>
+                        <div class="song-desc">Pase lo que pase, yo voy a estar para cuidarte, sostenerte y caminar a tu lado sin importar las dificultades.</div>
+                    </div>
+                </div>
+                <div class="song-card">
+                    <i class="fa-solid fa-star"></i>
+                    <div class="song-info">
+                        <div class="song-title"> MAGIC! - Rude</div>
+                        <div class="song-desc">Aunque el mundo o tu familia se oponga, yo me quiero casar contigo y voy a hacer lo posible por estar a tu lado.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REGALO 3: MINIJUEGO DE BÚSQUEDA DEL CORAZÓN -->
+        <div id="screen-game" class="screen">
+            <button class="exit-btn" onclick="goToScreen('screen-hub'); playSound('click')">EXIT</button>
+            <h2 id="game-title" style="font-size: 11px; color: #feca57; line-height: 1.5; margin-bottom: 10px;">
+                ¡ENCUENTRA EL CORAZÓN OCULTO! 💎
+            </h2>
+            <p id="game-subtitle" style="font-family: 'Quicksand', sans-serif; font-size: 12px; color: #c8d6e5; margin-bottom: 15px;">
+                Uno de estos cofres guarda tu premio especial de 2 meses.
+            </p>
+
+            <div id="chests-container" class="chests-grid">
+                <!-- Se generan 8 cofres por JavaScript -->
+            </div>
+
+            <!-- Cartel de resultado del juego -->
+            <div id="game-result" style="display: none; margin-top: 20px; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 8px; border: 2px solid #ff9ff3;">
+                <p id="game-result-text" style="font-size: 10px; color: #ff9ff3; margin-bottom: 10px;"></p>
+                <button class="pixel-btn" onclick="resetGame(); playSound('click')">VOLVER A INTENTAR</button>
+            </div>
+        </div>
+
+        <!-- REGALO 3: VICTORIA DEL MINIJUEGO -->
+        <div id="screen-game-win" class="screen">
+            <button class="exit-btn" onclick="goToScreen('screen-hub'); playSound('click')">EXIT</button>
+            <div style="background: rgba(0,0,0,0.6); padding: 25px; border-radius: 12px; border: 3px solid #1dd1a1; max-width: 450px;">
+                <div style="font-size: 50px; margin-bottom: 15px;">💖👑</div>
+                <h2 style="font-size: 13px; color: #1dd1a1; margin-bottom: 15px;">¡FELICIDADES MI AMOR!</h2>
+                <p style="font-family: 'Quicksand', sans-serif; font-size: 14px; line-height: 1.5; color: #fff; margin-bottom: 20px;">
+                    ¡Encontraste el corazón mágico! Te ganaste un abrazo gigante, mil besos y mi amor eterno por estos 2 meses y todos los que vienen. 
+                </p>
+                <button class="pixel-btn" onclick="goToScreen('screen-hub'); playSound('win')">RECLAMAR PREMIO</button>
+            </div>
+        </div>
+
+        <!-- REGALO 4: VALES INTRO -->
+        <div id="screen-tickets-intro" class="screen">
+            <button class="exit-btn" onclick="goToScreen('screen-hub'); playSound('click')">EXIT</button>
+            <h2 style="font-size: 11px; color: #ff9ff3; line-height: 1.5; margin-bottom: 15px;">
+                POR ÚLTIMO PERO MENOS IMPORTANTE...
+            </h2>
+            <div class="rules-box">
+                TIENE NORMAS:<br>
+                1. Un solo uso por vale.<br>
+                2. ¡Se pueden usar cuando tú desees!
+            </div>
+            <div>
+                <button class="pixel-btn" onclick="goToScreen('screen-tickets-list'); playSound('click')">ACEPTAR</button>
+                <button class="pixel-btn secondary" onclick="goToScreen('screen-sad'); playSound('deny')">DENEGAR</button>
+            </div>
+        </div>
+
+        <!-- REGALO 4: LISTA DE VALES -->
+        <div id="screen-tickets-list" class="screen">
+            <button class="exit-btn" onclick="goToScreen('screen-hub'); playSound('click')">EXIT</button>
+            <h2 style="font-size: 12px; color: #feca57; margin-bottom: 15px;">TUS VALES ESPECIALES 🎟️</h2>
+            <div class="tickets-grid">
+                <div class="ticket-item" id="ticket-1">
+                    <span>Vale por una Cita Especial</span>
+                    <button onclick="useTicket('ticket-1')">CANJEAR</button>
+                </div>
+                <div class="ticket-item" id="ticket-2">
+                    <span>Vale por Besos Ilimitados</span>
+                    <button onclick="useTicket('ticket-2')">CANJEAR</button>
+                </div>
+                <div class="ticket-item" id="ticket-3">
+                    <span>Vale por una cita con tematica</span>
+                    <button onclick="useTicket('ticket-3')">CANJEAR</button>
+                </div>
+                <div class="ticket-item" id="ticket-4">
+                    <span>Vale por Decidir la Próxima Salida</span>
+                    <button onclick="useTicket('ticket-4')">CANJEAR</button>
+                </div>
+                <div class="ticket-item" id="ticket-5">
+                    <span>Vale por un Abrazo y comerte a besoss</span>
+                    <button onclick="useTicket('ticket-5')">CANJEAR</button>
+                </div>
+                <div class="ticket-item" id="ticket-6">
+                    <span>Vale por Cumplir un Capricho</span>
+                    <button onclick="useTicket('ticket-6')">CANJEAR</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- NAVEGACIÓN ENTRE PANTALLAS ---
+        function goToScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+
+            if (screenId === 'screen-game') {
+                resetGame();
+            }
+        }
+
+        // --- SISTEMA DEL MINIJUEGO DE COFRES ---
+        let winningChestIndex = 0;
+        let gameOver = false;
+
+        function resetGame() {
+            gameOver = false;
+            const container = document.getElementById('chests-container');
+            const resultBox = document.getElementById('game-result');
+            container.innerHTML = '';
+            resultBox.style.display = 'none';
+
+            // Seleccionar aleatoriamente el cofre ganador (0 a 7)
+            winningChestIndex = Math.floor(Math.random() * 8);
+
+            for (let i = 0; i < 8; i++) {
+                const chest = document.createElement('div');
+                chest.className = 'chest-item';
+                chest.innerHTML = '📦';
+                chest.onclick = () => selectChest(i, chest);
+                container.appendChild(chest);
+            }
+        }
+
+        function selectChest(index, element) {
+            if (gameOver || element.classList.contains('opened-wrong')) return;
+
+            if (index === winningChestIndex) {
+                element.classList.add('opened-correct');
+                element.innerHTML = '💖';
+                playSound('win');
+                gameOver = true;
+                setTimeout(() => {
+                    goToScreen('screen-game-win');
+                }, 800);
+            } else {
+                element.classList.add('opened-wrong');
+                element.innerHTML = '❌';
+                playSound('wrong');
+                
+                const resultBox = document.getElementById('game-result');
+                const resultText = document.getElementById('game-result-text');
+                resultText.innerText = "¡OH NO! COFRE INCORRECTO. ¡SIGUE INTENTANDO!";
+                resultBox.style.display = 'block';
+            }
+        }
+
+        // --- CANJEAR VALES / TICKETS ---
+        function useTicket(ticketId) {
+            const ticket = document.getElementById(ticketId);
+            if (!ticket.classList.contains('used')) {
+                ticket.classList.add('used');
+                const btn = ticket.querySelector('button');
+                btn.innerText = 'CANJEADO';
+                playSound('win');
+            }
+        }
+
+        // --- GENERADOR DE EFECTOS DE SONIDO RETRO (Sintetizador Web Audio API) ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'click') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            } else if (type === 'start') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.setValueAtTime(500, now + 0.08);
+                osc.frequency.setValueAtTime(800, now + 0.16);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } else if (type === 'deny') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(250, now);
+                osc.frequency.linearRampToValueAtTime(100, now + 0.2);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.2);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            } else if (type === 'wrong') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.setValueAtTime(110, now + 0.1);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } else if (type === 'win') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'open') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(350, now);
+                osc.frequency.exponentialRampToValueAtTime(700, now + 0.15);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.15);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            }
+        }
+    </script>
+</body>
+</html>
